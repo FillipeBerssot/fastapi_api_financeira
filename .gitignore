@@ -1,0 +1,23 @@
+# Ambiente virtual
+.venv/
+venv/
+
+# Arquivos de configuração locais
+.env
+.env.*
+
+# Caches do Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Caches de ferramentas
+.pytest_cache/
+.ruff_cache/
+
+# Pastas de IDE/Editor
+.vscode/
+.idea/
+
+# Arquivos temporários
+*.log

@@ -1,0 +1,43 @@
+[project]
+name = "fastapi-api-financeira"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Fillipe Berssot",email = "fillipeberssot95@hotmail.com"}
+]
+readme = "README.md"
+requires-python = ">=3.12,<4.0"
+dependencies = [
+    "fastapi (>=0.121.2,<0.122.0)",
+    "uvicorn[standard] (>=0.38.0,<0.39.0)",
+    "sqlalchemy (>=2.0.44,<3.0.0)",
+    "psycopg2-binary (>=2.9.11,<3.0.0)"
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.14.5"
+taskipy = "^1.14.1"
+
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+src = ["app"]
+exclude = ["alembic"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I"]
+
+[tool.taskipy.tasks]
+lint = "ruff check"
+pre_format = "ruff check --fix"
+format = "ruff format"
+run = "uvicorn app.main:app --reload"
+pre_test = "task lint"
+test = "pytest -s -x --cov=fastapi_api_financeira -vv"
+
+
