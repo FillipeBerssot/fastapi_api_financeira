@@ -13,7 +13,7 @@ class UserBase(BaseModel):
 
 
 class UserCreate(UserBase):
-    """ "
+    """
     Schema usado quando um novo usuário será criado (input).
     """
 
@@ -21,7 +21,7 @@ class UserCreate(UserBase):
 
 
 class UserRead(UserBase):
-    """ "
+    """
     Schema usado para devolver informações do usuário (output).
     """
 
