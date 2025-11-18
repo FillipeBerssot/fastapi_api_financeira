@@ -1,6 +1,5 @@
-from typing import Final
 import os
-
+from typing import Final
 
 DATABASE_URL: Final[str] = os.getenv(
     "DATABASE_URL",

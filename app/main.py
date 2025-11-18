@@ -1,5 +1,4 @@
 from fastapi import FastAPI
-from app.core.database import get_db
 
 app = FastAPI(
     title="API de Controle Financeiro Pessoal",
