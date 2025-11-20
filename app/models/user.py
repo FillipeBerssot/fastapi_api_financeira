@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import datetime, timezone
 
 from sqlalchemy.orm import Mapped, mapped_column
 
@@ -33,11 +33,11 @@ class User(Base):
         nullable=False,
     )
     created_at: Mapped[datetime] = mapped_column(
-        default=datetime.timezone.utc.now,
+        default=datetime.now(timezone.utc),
         nullable=False,
     )
     updated_at: Mapped[datetime] = mapped_column(
-        default=datetime.timezone.utc.now,
-        onupdate=datetime.timezone.utc.now,
+        default=datetime.now(timezone.utc),
+        onupdate=datetime.now(timezone.utc),
         nullable=False,
     )

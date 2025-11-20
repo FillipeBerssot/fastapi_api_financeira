@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import Any, Final
 
 from jose import jwt
@@ -48,9 +48,9 @@ def create_access_token(
     to_encode = data.copy()
 
     if expires_delta is not None:
-        expire = datetime.timezone.utc.now() + expires_delta
+        expire = datetime.now(timezone.utc) + expires_delta
     else:
-        expire = datetime.timezone.utc.now() + timedelta(
+        expire = datetime.now(timezone.utc) + timedelta(
             minutes=ACCESS_TOKEN_EXPIRE_MINUTES
         )
 
