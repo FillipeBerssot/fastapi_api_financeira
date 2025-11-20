@@ -1,7 +1,12 @@
 import os
 from typing import Final
 
-DATABASE_URL: Final[str] = os.getenv(
-    "DATABASE_URL",
-    "postgresql+psycopg2://user:password@localhost:5432/finance_db",
-)
+from dotenv import load_dotenv
+
+load_dotenv()
+
+DATABASE_URL: Final[str] = os.getenv("DATABASE_URL")
+
+if not DATABASE_URL:
+    raise RuntimeError("DATABASE_URL não está definida. Crie um .env ou configure" \
+                        "a variável de ambiente.")

@@ -20,7 +20,7 @@ SessionLocal = sessionmaker(
 
 
 def get_db() -> Generator[Session, None, None]:
-    """ "
+    """
     Dependência para ser usada nas rotas do FastAPI.
 
     Ela cria uma sessão com o banco (SessionLocal),

@@ -1,6 +1,7 @@
 from collections.abc import Generator
 
 import pytest
+from app.core.database import get_db
 from app.main import app
 from app.models.base import Base
 from fastapi.testclient import TestClient
@@ -38,13 +39,18 @@ def override_get_db() -> Generator[Session, None, None]:
         db.close()
 
 
+app.dependency_overrides[get_db] = override_get_db
+
+
 @pytest.fixture(scope="session", autouse=True)
 def create_test_database() -> Generator[None, None, None]:
     """
     Cria todas as tabelas no banco de testes antes da sessão de testes
     e apaga tudo no final (se necessário).
     """
+    Base.metadata.drop_all(bind=engine)
     Base.metadata.create_all(bind=engine)
+
     yield
 
 
