@@ -28,6 +28,7 @@ build-backend = "poetry.core.masonry.api"
 ruff = "^0.14.5"
 taskipy = "^1.14.1"
 pytest = "^9.0.1"
+alembic = "^1.17.2"
 
 [tool.ruff]
 line-length = 88
@@ -46,5 +47,6 @@ run = "uvicorn app.main:app --reload"
 pre_test = "task lint"
 test = "poetry run pytest"
 init_db = "python -m app.core.init_db"
-
+alembic_autogenerate = "alembic revision --autogenerate -m"
+alembic_upgrade = "alembic upgrade head"
 

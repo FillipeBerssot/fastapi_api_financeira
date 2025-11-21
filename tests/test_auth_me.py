@@ -22,7 +22,7 @@ def test_get_current_user_success(client, db_session) -> None:
     db_session.refresh(user)
 
     login_payload = {
-        "email": user.email,
+        "username": user.email,
         "password": raw_password,
     }
 

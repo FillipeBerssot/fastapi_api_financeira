@@ -20,7 +20,7 @@ def test_login_success(client, db_session) -> None:
     db_session.commit()
 
     payload = {
-        "email": "login_success@test.com",
+        "username": "login_success@test.com",
         "password": raw_password,
     }
 
@@ -50,7 +50,7 @@ def test_login_invalid_password(client, db_session) -> None:
     db_session.commit()
 
     payload = {
-        "email": "login_erro_senha@test.com",
+        "username": "login_erro_senha@test.com",
         "password": "senha_errada",
     }
 
@@ -66,7 +66,7 @@ def test_login_non_existent_user(client) -> None:
     Não deve permitir login com usuário que não existe.
     """
     payload = {
-        "email": "não_existe@test.com",
+        "username": "não_existe@test.com",
         "password": "qualquer_senha",
     }
 
