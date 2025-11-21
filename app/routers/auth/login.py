@@ -1,7 +1,7 @@
 from http import HTTPStatus
 
-from fastapi import APIRouter, Depends, Form, HTTPException
-from pydantic import EmailStr
+from fastapi import APIRouter, Depends, HTTPException
+from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
@@ -17,8 +17,7 @@ router = APIRouter(
 
 @router.post("/login", response_model=Token)
 def login(
-    email: EmailStr = Form(...),
-    password: str = Form(...),
+    form_data: OAuth2PasswordRequestForm = Depends(),
     db: Session = Depends(get_db),
 ) -> Token:
     """
@@ -30,6 +29,8 @@ def login(
     - Se existir, verifica a senha.
     - Se a senha estiver correta, gera e retorna um token JWT.
     """
+    email = form_data.username
+    password = form_data.password
 
     user = get_user_by_email(db, email=email)
 
