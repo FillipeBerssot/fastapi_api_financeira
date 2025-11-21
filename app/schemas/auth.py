@@ -1,6 +1,6 @@
 from typing import Any
 
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 
 class Token(BaseModel):
@@ -23,3 +23,12 @@ class TokenData(BaseModel):
 
     sub: str | None = None
     extra: dict[str, Any] | None = None
+
+
+class LoginRequest(BaseModel):
+    """
+    Dados enviados pelo cliente para fazer login.
+    """
+
+    email: EmailStr
+    password: str

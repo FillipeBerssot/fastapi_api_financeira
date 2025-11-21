@@ -1,4 +1,7 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from http import HTTPStatus
+
+from fastapi import APIRouter, Depends, Form, HTTPException
+from pydantic import EmailStr
 from sqlalchemy.orm import Session
 
 from app.core.database import get_db
@@ -11,13 +14,11 @@ router = APIRouter(
 )
 
 
-@router.post(
-    "/register",
-    response_model=UserRead,
-    status_code=status.HTTP_201_CREATED,
-)
+@router.post("/register", response_model=UserRead, status_code=HTTPStatus.CREATED)
 def register_user(
-    user_in: UserCreate,
+    email: EmailStr = Form(...),
+    full_name: str = Form(...),
+    password: str = Form(...),
     db: Session = Depends(get_db),
 ) -> UserRead:
     """
@@ -29,13 +30,20 @@ def register_user(
     - Se existir, retorna 400.
     - Se não existir, cria o usuário e retorna os dados (UserRead).
     """
-    existing_user = get_user_by_email(db, user_in.email)
-    if existing_user is not None:
+    existing_user = get_user_by_email(db, email=email)
+
+    if existing_user:
         raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
+            status_code=HTTPStatus.BAD_REQUEST,
             detail="Email já está em uso.",
         )
 
-    new_user = create_user(db, user_in)
+    user_in = UserCreate(
+        email=email,
+        full_name=full_name,
+        password=password,
+    )
+
+    new_user = create_user(db, user_in=user_in)
 
     return new_user

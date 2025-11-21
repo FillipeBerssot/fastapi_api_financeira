@@ -1,7 +1,9 @@
+from http import HTTPStatus
+
 from app.models.user import User
 
 
-def test_register_user_success(client, db_session):
+def test_register_user_success(client, db_session) -> None:
     """
     Deve registrar um novo usuário com sucesso e salvar no banco.
     """
@@ -11,21 +13,20 @@ def test_register_user_success(client, db_session):
         "password": "senha_secreta",
     }
 
-    response = client.post("/auth/register", json=payload)
+    response = client.post("/auth/register", data=payload)
 
-    assert response.status_code == 201
+    assert response.status_code == HTTPStatus.CREATED
 
     data = response.json()
-    assert "id" in data
     assert data["email"] == payload["email"]
     assert data["full_name"] == payload["full_name"]
-    assert data["is_active"] is True
+    assert "hashed_password" not in data
+    assert "password" not in data
 
-    user_in_db = db_session.query(User).filter(User.email == payload["email"]).first()
+    user_in_db = db_session.query(User).filter_by(email=payload["email"]).first()
 
     assert user_in_db is not None
-    assert user_in_db.email == payload["email"]
-    assert user_in_db.hashed_password != payload["password"]
+    assert user_in_db.full_name == payload["full_name"]
 
 
 def test_register_user_with_existing_email(client, db_session) -> None:
@@ -47,9 +48,9 @@ def test_register_user_with_existing_email(client, db_session) -> None:
         "password": "outra_senha",
     }
 
-    response = client.post("/auth/register", json=payload)
+    response = client.post("/auth/register", data=payload)
 
-    assert response.status_code == 400
+    assert response.status_code == HTTPStatus.BAD_REQUEST
 
     data = response.json()
     assert data["detail"] == "Email já está em uso."

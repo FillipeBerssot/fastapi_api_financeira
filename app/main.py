@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 
-from app.routers import auth
+from app.routers.auth.login import router as auth_login_router
+from app.routers.auth.register import router as auth_register_router
 
 app = FastAPI(
     title="API de Controle Financeiro Pessoal",
@@ -8,7 +9,8 @@ app = FastAPI(
 )
 
 
-app.include_router(auth.router)
+app.include_router(auth_register_router)
+app.include_router(auth_login_router)
 
 
 @app.get("/health")

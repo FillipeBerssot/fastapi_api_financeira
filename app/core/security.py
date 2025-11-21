@@ -25,7 +25,7 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
 
 def get_password_hash(password: str) -> str:
     """
-    Recebe uma senha em texto puro e devolve o hash usando bcrypt.
+    Recebe uma senha em texto puro e devolve o hash usando pbkdf2_sha256.
 
     É esse hash que vamos guardar no banco (campo hashed_password do User).
     """

@@ -8,5 +8,7 @@ load_dotenv()
 DATABASE_URL: Final[str] = os.getenv("DATABASE_URL")
 
 if not DATABASE_URL:
-    raise RuntimeError("DATABASE_URL não está definida. Crie um .env ou configure" \
-                        "a variável de ambiente.")
+    raise RuntimeError(
+        "DATABASE_URL não está definida. Crie um .env ou configure"
+        "a variável de ambiente."
+    )
